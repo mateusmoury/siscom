@@ -17,7 +17,6 @@ class Simulator:
 			result = {
 				'collisions': 0,
 				'empty': 0,
-				'success': 0,
 				'tags': 0
 			}
 
@@ -25,12 +24,10 @@ class Simulator:
 				simulation = Simulation(self.initial_slots, i, self.estimator).run()
 				result['collisions'] = result['collisions'] + simulation['collisions']
 				result['empty'] = result['empty'] + simulation['empty']
-				result['success'] = result['success'] + simulation['success']
-				result['tags'] = result['tags']
 			
 			result['collisions'] = result['collisions'] / self.simulations;
 			result['empty'] = result['empty'] / self.simulations;
-			result['success'] = result['success'] / self.simulations;
+			result['tags'] = i
 			simulations.append(result)
 
 		return simulations

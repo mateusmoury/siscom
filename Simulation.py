@@ -15,7 +15,6 @@ class Simulation:
 
 		total_collisions = 0
 		total_empty = 0
-		total_success = 0
 
 		while tags_remaining > 0:
 
@@ -37,7 +36,6 @@ class Simulation:
 				elif slot == 1:
 					tags_remaining = tags_remaining - 1
 					success = success + 1
-					total_success = total_success + 1
 				else:
 					collisions = collisions + 1
 					total_collisions = total_collisions + 1
@@ -47,7 +45,6 @@ class Simulation:
 		return {
 			'tags': self.tags,
 			'collisions': total_collisions,
-			'success': total_success,
 			'empty': total_empty
 		}
 
