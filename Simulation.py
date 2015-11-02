@@ -15,10 +15,12 @@ class Simulation:
 
 		total_collisions = 0
 		total_empty = 0
+		total_slots = 0
 
 		while tags_remaining > 0:
 
 			frame = [0 for i in range(slots)]
+			total_slots = total_slots + slots
 			
 			# Randomly distributes tags for the slots
 			for i in range(tags_remaining):
@@ -45,6 +47,7 @@ class Simulation:
 		return {
 			'tags': self.tags,
 			'collisions': total_collisions,
-			'empty': total_empty
+			'empty': total_empty,
+			'slots': total_slots
 		}
 

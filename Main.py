@@ -26,4 +26,12 @@ if __name__ == '__main__':
 	plt.plot([x['tags'] for x in result], [x['empty'] for x in result], 'r--')
 	plt.ylabel('Empty')
 	plt.xlabel('Tags')
+
+	# Generating Slots vs Tags
+	plt.figure(3)
+	plt.title('Slots vs Tags')
+	plt.plot([x['tags'] for x in result], [x['slots'] for x in result], 'r--')
+	plt.ylabel('Slots')
+	plt.xlabel('Tags')
+
 	plt.show()
