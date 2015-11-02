@@ -1,11 +1,10 @@
-from math import inf
 from math import exp
 
 def lower_bound(collisions, success, empty):
 	return 2*collisions;
 
 def eom_lee(collisions, success, empty):
-	gama, beta, l = float(2), inf, collisions + success + empty
+	gama, beta, l = float(2), float('inf'), collisions + success + empty
 	threshold = 0.001
 
 	while True:
