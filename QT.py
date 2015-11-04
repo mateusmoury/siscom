@@ -13,7 +13,7 @@ class QT:
 		else:
 			self.K = K
 		
-	def colide(self, prefix):
+	def hasCollision(self, prefix):
 		result = {
 			'count': 0,
 			'tag': "",
@@ -22,19 +22,20 @@ class QT:
 		prefix_len = prefix.__len__()
 		count = 0 
 		for t in self.tags:
-			if t['active'] and t['tag'].startswith(prefix):
-				result['tag'] = t['tag']
-				result['count']+=1
+			if t['active']:
 				result['bits_sum'] += prefix_len
-				if result['count'] > 1:
-					return result
+				if t['tag'].startswith(prefix):
+					result['tag'] = t['tag']
+					result['count']+=1
+					if result['count'] > 1:
+						return result
 		return result
 	
 	def execute(self, Q, M):
 		if Q.empty():
 			return M
 		prefix = Q.get()
-		result = self.colide(prefix)
+		result = self.hasCollision(prefix)
 		if result['count'] == 1:
 			tag = result['tag']
 			self.tags[self.tags.index({'tag':tag, 'active': True})]['active'] = False
@@ -85,7 +86,7 @@ tags = [
 ]
 
 
-qt = QT(tags,6)
+qt = QT(tags)
 
 ans = qt.run()
 
