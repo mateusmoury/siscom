@@ -6,41 +6,39 @@ class QT:
 	#K = max prefix length (tags length)
 	def __init__(self, tags, K=-1):
 		self.tags = [{'tag': t, 'active': True} for t in tags]
+		self.tags_bits_sum = {} 
+		for t in tags:
+			self.tags_bits_sum[t] = 0
 		if K==-1 and tags.__len__()==0:
 			self.K = 0
 		elif K==-1:
 			self.K = tags[0].__len__()
 		else:
 			self.K = K
-		
-	def hasCollision(self, prefix):
+
+	def query(self, prefix):
 		result = {
 			'count': 0,
 			'tag': "",
-			'bits_sum': 0
 		}
-		prefix_len = prefix.__len__()
 		count = 0 
 		for t in self.tags:
-			if t['active']:
-				result['bits_sum'] += prefix_len
-				if t['tag'].startswith(prefix):
-					result['tag'] = t['tag']
-					result['count']+=1
-					if result['count'] > 1:
-						return result
+			if t['active'] and t['tag'].startswith(prefix):
+				self.tags_bits_sum[t['tag']] += t['tag'].__len__()				
+				result['tag'] = t['tag']
+				result['count']+=1
 		return result
 	
 	def execute(self, Q, M):
 		if Q.empty():
 			return M
 		prefix = Q.get()
-		result = self.hasCollision(prefix)
-		if result['count'] == 1:
-			tag = result['tag']
+		queryResult = self.query(prefix)
+		if queryResult['count'] == 1:
+			tag = queryResult['tag']
 			self.tags[self.tags.index({'tag':tag, 'active': True})]['active'] = False
-			M.append({'tag': tag, 'bits_sum': result['bits_sum'] })
-		elif result['count'] > 1:
+			M.append(tag)
+		elif queryResult['count'] > 1:
 			if prefix.__len__()+1 <= self.K:
 				Q.put(prefix+"0")
 				Q.put(prefix+"1")
@@ -59,10 +57,10 @@ class QT:
 		Q.put("1")
 		M = []
 		M = self.execute(Q, [])
-		results['tags_results'] = M
 		bits_sum = 0
-		for tag_result in M:
-			bits_sum += tag_result['bits_sum']
+		for tag in M:
+			bits_sum += self.tags_bits_sum[tag]
+			results['tags_results'].append({'tag': tag, 'bits_sum': self.tags_bits_sum[tag]})
 		results['bits_sum'] = bits_sum
 		results['bits_sum_average'] = float(bits_sum)/float(M.__len__())
 		return results
@@ -70,20 +68,31 @@ class QT:
 
 
 
-
-
-
 ############################ TEST #############################3
 
-
-tags = [
-	"101001",
-	"110100",
-	"011001",
-	"111010",
-	"111100",
-	"111101"		
-]
+if True:
+	tags = [
+		"010011",
+		"100001",
+		"010110",
+		"011000",
+		"000100",
+		"010101",											
+		"100000",
+		"000010",
+		"000011",
+		"000001",
+		"000011",
+		"000101",
+		"000100",
+		"000110",
+		"000111",			
+	]	
+else:
+	tags = [
+		"000",
+		"001"
+	]
 
 
 qt = QT(tags)
