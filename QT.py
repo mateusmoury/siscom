@@ -6,7 +6,7 @@ class QT:
 	#K = max prefix length (tags length)
 	def __init__(self, tags, K=-1):
 		self.tags = [{'tag': t, 'active': True} for t in tags]
-		if K==-1 and tags.empty():
+		if K==-1 and tags.__len__()==0:
 			self.K = 0
 		elif K==-1:
 			self.K = tags[0].__len__()
