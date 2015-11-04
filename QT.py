@@ -6,7 +6,12 @@ class QT:
 	#K = max prefix length (tags length)
 	def __init__(self, tags, K=-1):
 		self.tags = [{'tag': t, 'active': True} for t in tags]
-		self.K = K
+		if K==-1 and tags.empty():
+			self.K = 0
+		elif K==-1:
+			self.K = tags[0].__len__()
+		else:
+			self.K = K
 		
 	def colide(self, prefix):
 		result = {
