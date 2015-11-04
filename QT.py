@@ -2,20 +2,23 @@ from queue import Queue
 
 
 class QT:
-	def __init__(self, all_tags, max_prefix_length=10):
-		self.all_tags = all_tags
-		self.max_prefix_length = max_prefix_length
-
+	def __init__(self, tags, K=10):
+		self.tags = tags
+		self.K = K
+		
 	def colide(self, prefix):
 		result = {
 			'count': 0,
-			'tag': ""
+			'tag': "",
+			'bits_sum': 0
 		}
+		prefix_len = prefix.__len__()
 		count = 0 
-		for t in self.all_tags:
-			if t.startswith(prefix):
-				result['tag'] = t
+		for t in self.tags:
+			if t['active'] and t['tag'].startswith(prefix):
+				result['tag'] = t['tag']
 				result['count']+=1
+				result['bits_sum'] += prefix_len
 				if result['count'] > 1:
 					return result
 		return result
@@ -26,21 +29,31 @@ class QT:
 		prefix = Q.get()
 		result = self.colide(prefix)
 		if result['count'] == 1:
-			M.append(result['tag'])
+			tag = result['tag']
+			self.tags[self.tags.index({'tag':tag, 'active': True})]['active'] = False
+			M.append({'tag': tag, 'bits_sum': result['bits_sum'] })
 		elif result['count'] > 1:
-			if prefix.__len__()+1 <= self.max_prefix_length:
+			if prefix.__len__()+1 <= self.K:
 				Q.put(prefix+"0")
 				Q.put(prefix+"1")
 		return self.execute(Q,M)	
 
 	def run(self):
-		if self.max_prefix_length == 0:
-			return []
+		results = {'tags_results':[], 'bits_sum': 0, 'bits_sum_average': 0.0 }	
+		if self.K == 0:
+			return results
 		Q = Queue()
 		Q.put("0")
 		Q.put("1")
 		M = []
-		return self.execute(Q, M)
+		M = self.execute(Q, [])
+		results['tags_results'] = M
+		bits_sum = 0
+		for tag_result in M:
+			bits_sum += tag_result['bits_sum']
+		results['bits_sum'] = bits_sum
+		results['bits_sum_average'] = float(bits_sum)/float(M.__len__())
+		return results
 
 
 
@@ -50,16 +63,25 @@ class QT:
 
 ############################ TEST #############################3
 
-tags = ["0", "101", "1", "0111", "1110", "1001", "0000", "111111", "111110", "111100"]
-		
-qt = QT(tags,10)
+
+tags = [
+	{'tag': "101001", 'active': True},
+	{'tag': "110100", 'active': True},
+	{'tag': "011001", 'active': True},	
+	{'tag': "111010", 'active': True}, 
+	{'tag': "111100", 'active': True}, 
+	{'tag': "111101", 'active': True} 			
+]
+
+
+
+qt = QT(tags,6)
 
 ans = qt.run()
 
 print ("Identificadas:")
 print (ans)
-for t in ans:
-	print (t)
+
 	
 
 	
