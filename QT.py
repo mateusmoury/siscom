@@ -2,8 +2,10 @@ from queue import Queue
 
 
 class QT:
-	def __init__(self, tags, K=10):
-		self.tags = tags
+	#tags: list of strings containing tags id's
+	#K = max prefix length (tags length)
+	def __init__(self, tags, K=-1):
+		self.tags = [{'tag': t, 'active': True} for t in tags]
 		self.K = K
 		
 	def colide(self, prefix):
@@ -22,7 +24,7 @@ class QT:
 				if result['count'] > 1:
 					return result
 		return result
-		
+	
 	def execute(self, Q, M):
 		if Q.empty():
 			return M
@@ -37,7 +39,11 @@ class QT:
 				Q.put(prefix+"0")
 				Q.put(prefix+"1")
 		return self.execute(Q,M)	
-
+	
+	#Return results, a dictionary containing:
+	#	tags_results: Contains all identified tags and how many bits were exchanged to execute their respective identification
+	#	bits_sum: Sum of all bits exchanged, same as iterate over tags_results and sum all bits exchanged
+	#	bits_sum_average: bits_sum divided by the number of tags identified
 	def run(self):
 		results = {'tags_results':[], 'bits_sum': 0, 'bits_sum_average': 0.0 }	
 		if self.K == 0:
@@ -65,14 +71,13 @@ class QT:
 
 
 tags = [
-	{'tag': "101001", 'active': True},
-	{'tag': "110100", 'active': True},
-	{'tag': "011001", 'active': True},	
-	{'tag': "111010", 'active': True}, 
-	{'tag': "111100", 'active': True}, 
-	{'tag': "111101", 'active': True} 			
+	"101001",
+	"110100",
+	"011001",
+	"111010",
+	"111100",
+	"111101"		
 ]
-
 
 
 qt = QT(tags,6)
