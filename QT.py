@@ -1,5 +1,7 @@
 from queue import Queue
+import sys
 
+sys.setrecursionlimit(1000000)
 
 class QT:
 	#tags: list of strings containing tags id's

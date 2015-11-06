@@ -1,4 +1,7 @@
 from queue import Queue
+import sys
+
+sys.setrecursionlimit(1000000)
 
 
 class QTSL:
