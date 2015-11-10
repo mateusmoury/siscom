@@ -6,13 +6,13 @@ import time
 if __name__ == '__main__':
 
 
-	lb = Simulator(initial_slots=64, simulations=500, min_tags=100, max_tags=1000,
+	lb = Simulator(initial_slots=64, simulations=2000, min_tags=100, max_tags=1000,
 							step=100, estimator=lower_bound)
 
-	lee = Simulator(initial_slots=64, simulations=500, min_tags=100, max_tags=1000,
+	lee = Simulator(initial_slots=64, simulations=2000, min_tags=100, max_tags=1000,
 							step=100, estimator=eom_lee)
 
-	chen = Simulator(initial_slots=64, simulations=500, min_tags=100, max_tags=1000,
+	chen = Simulator(initial_slots=64, simulations=2000, min_tags=100, max_tags=1000,
 							step=100, estimator=chen)
 
 
