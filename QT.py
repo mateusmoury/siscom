@@ -6,17 +6,12 @@ sys.setrecursionlimit(1000000)
 class QT:
 	#tags: list of strings containing tags id's
 	#K = max prefix length (tags length)
-	def __init__(self, tags, K=-1):
+	def __init__(self, tags):
 		self.tags = [{'tag': t, 'active': True} for t in tags]
 		self.tags_bits_sum = {} 
 		for t in tags:
 			self.tags_bits_sum[t] = 0
-		if K==-1 and tags.__len__()==0:
-			self.K = 0
-		elif K==-1:
-			self.K = tags[0].__len__()
-		else:
-			self.K = K
+
 
 	def query(self, prefix):
 		result = {
@@ -26,7 +21,7 @@ class QT:
 		count = 0 
 		for t in self.tags:
 			if t['active'] and t['tag'].startswith(prefix):
-				self.tags_bits_sum[t['tag']] += t['tag'].__len__()				
+				self.tags_bits_sum[t['tag']] += len(t['tag'])
 				result['tag'] = t['tag']
 				result['count']+=1
 		return result
@@ -41,9 +36,8 @@ class QT:
 			self.tags[self.tags.index({'tag':tag, 'active': True})]['active'] = False
 			M.append(tag)
 		elif queryResult['count'] > 1:
-			if prefix.__len__()+1 <= self.K:
-				Q.put(prefix+"0")
-				Q.put(prefix+"1")
+			Q.put(prefix+"0")
+			Q.put(prefix+"1")
 		return self.execute(Q,M)	
 	
 	#Return results, a dictionary containing:
@@ -52,8 +46,6 @@ class QT:
 	#	bits_sum_average: bits_sum divided by the number of tags identified
 	def run(self):
 		results = {'tags_results':[], 'bits_sum': 0, 'bits_sum_average': 0.0 }	
-		if self.K == 0:
-			return results
 		Q = Queue()
 		Q.put("0")
 		Q.put("1")
@@ -64,7 +56,7 @@ class QT:
 			bits_sum += self.tags_bits_sum[tag]
 			results['tags_results'].append({'tag': tag, 'bits_sum': self.tags_bits_sum[tag]})
 		results['bits_sum'] = bits_sum
-		results['bits_sum_average'] = float(bits_sum)/float(M.__len__())
+		results['bits_sum_average'] = float(bits_sum)/float(len(M))
 		return results
 
 
@@ -112,7 +104,6 @@ print (ans)
 			
 		
 	
-
 
 
 
