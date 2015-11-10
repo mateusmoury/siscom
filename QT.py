@@ -5,7 +5,6 @@ sys.setrecursionlimit(1000000)
 
 class QT:
 	#tags: list of strings containing tags id's
-	#K = max prefix length (tags length)
 	def __init__(self, tags):
 		self.tags = [{'tag': t, 'active': True} for t in tags]
 		self.tags_bits_sum = {} 
