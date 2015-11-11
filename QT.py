@@ -13,10 +13,10 @@ class QT:
 		aux = self.tags
 		self.tags = [{'tag': t['tag'], 'active': True} for t in aux]
 		self.tags_bits_sum = {} 
-		self.reader_bits_sum = 0 
+		self.reader_bits_sum = 0
 		self.steps = 0 
-		for t in tags:
-			self.tags_bits_sum[t] = 0	
+		for t in self.tags:
+			self.tags_bits_sum[t['tag']] = 0
 
 
 	def query(self, prefix):
@@ -39,7 +39,7 @@ class QT:
 		if Q.empty() or len(M) == self.num_tags_to_identify:
 			return M
 		prefix = Q.get()
-		self.steps+=1
+		self.steps += 1
 		queryResult = self.query(prefix)
 		if queryResult['count'] == 1:
 			tag = queryResult['tag']

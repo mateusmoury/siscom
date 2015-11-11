@@ -48,17 +48,17 @@ class QWT (object):
 			if t['active']:
 				if t['tag'].startswith(prefix):
 					result['count']+=1
-					result['ws_bits'] = t['tag'][ws:]
+					result['ws_bits'] = t['tag'][len(prefix) : len(prefix) + ws]
 					self.bits_sum += ws
 		return result
 
 	def go_on(self, prefix):
 		prefix_len = len(prefix)
 		tag = ""
+		self.reader_bits_sum += prefix_len
 		for t in self.tags:
 			if t['active']:
-				self.go_on_slots += 1					
-				self.reader_bits_sum += prefix_len
+				self.go_on_slots += 1
 				if t['tag'].startswith(prefix):
 					self.bits_sum += len(t['tag'])
 					tag = t['tag']
@@ -96,7 +96,7 @@ class QWT (object):
 	#   go_on_slots: number of go_on slots sended by the reader     
 	def run(self):
 		self.reset()
-		last_result = self.call('0', -1, -1, -1, True )
+		last_result = self.call('0', -1, -1, -1, True)
 		self.call('1', last_result['ws'], last_result['L'], last_result['count'])
 		return {'bits_sum': self.bits_sum, 'reader_bits_sum': self.reader_bits_sum, 'steps': self.steps, 'go_on_slots': self.go_on_slots} 
 

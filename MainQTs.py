@@ -1,42 +1,75 @@
 import matplotlib.pyplot as plt
 from QT import QT
-#importar o QWT
+from QWT import QWT
+import time
 
 if __name__ == '__main__':
-	results_for_qt = []
-	results_for_qwt = []
+	results_for_qt, results_for_qwt = [], []
 
 	for number_of_tags in range(100, 1001, 100):
-		print("Rodando com numero de tags: " + str(number_of_tags))
-		qt_bits_sum = 0
-		qwt_bits_sum = 0
-		for simulation in range(1, 1001):
-			print("Rodando a simulacaoo: " + str(simulation))
+		qt_bits_sum, qt_reader_bits_sum, qt_steps = 0, 0, 0
+		qwt_bits_sum, qwt_reader_bits_sum, qwt_steps = 0, 0, 0
+		for simulation in range(1, 501):
 			filename = './tag_ids/' + str(number_of_tags) + '/' + str(simulation) + '.txt'
 			with open(filename, "r") as my_file:
 				tags = []
 				for line in my_file:
 					tags.append(line)
+
 				qt = QT(tags)
 				ans_qt = qt.run()
+
 				qt_bits_sum += ans_qt['bits_sum']
-				# Fazer 18-20 para qwt
-		qt_bits_sum_mean = float(qt_bits_sum) / 1000.0
-		results_for_qt.append([number_of_tags, qt_bits_sum_mean])
-		# Fazer 22-23 para qwt
+				qt_reader_bits_sum += ans_qt['reader_bits_sum']
+				qt_steps += ans_qt['steps']
+
+				qwt = QWT(tags)
+				ans_qwt = qwt.run()
+
+				qwt_bits_sum += ans_qwt['bits_sum']
+				qwt_reader_bits_sum += ans_qwt['reader_bits_sum']
+				qwt_steps += ans_qwt['steps']
+
+		qt_bits_sum_mean = float(qt_bits_sum) / 500.0
+		qt_reader_bits_sum_mean = float(qt_reader_bits_sum) / 500.0
+		qt_steps_mean = float(qt_steps) / 500.0
+
+		qwt_bits_sum_mean = float(qwt_bits_sum) / 500.0
+		qwt_reader_bits_sum_mean = float(qwt_reader_bits_sum) / 500.0
+		qwt_steps_mean = float(qwt_steps) / 500.0
+
+		results_for_qt.append([number_of_tags, qt_bits_sum_mean, qt_reader_bits_sum_mean, qt_steps_mean])
+		results_for_qwt.append([number_of_tags, qwt_bits_sum_mean, qwt_reader_bits_sum_mean, qwt_steps_mean])
 
 #Plotting
 
-	plt.figure()
+	plt.figure(1)
 	plt.grid()
-	plt.title("#Tags vs Bits Transmitidos")
+	plt.title("#Tags vs Bits Transmitidos Por Tags")
 	plt.plot([x[0] for x in results_for_qt], [x[1] for x in results_for_qt], 'ro-', label="QT")
-	# Plotar qwt - semelhante linhas 33
-	# mas tem que mudar a cor (terceiro parametro)
-	# pode botar um 'bo-' e o label tambem!
-	plt.ylabel('Bits Transmitidos')
+	plt.plot([x[0] for x in results_for_qwt], [x[1] for x in results_for_qwt], 'bo-', label="QWT")
+	plt.ylabel('Bits Transmitidos por Tags')
 	plt.xlabel('#Tags')
 	plt.legend()
+
+	plt.figure(2)
+	plt.grid()
+	plt.title("#Tags vs Bits Transmitidos Pelo Leitor")
+	plt.plot([x[0] for x in results_for_qt], [x[2] for x in results_for_qt], 'ro-', label="QT")
+	plt.plot([x[0] for x in results_for_qwt], [x[2] for x in results_for_qwt], 'bo-', label="QWT")
+	plt.ylabel('Bits Transmitidos pelo Leitor')
+	plt.xlabel('#Tags')
+	plt.legend()
+
+	plt.figure(3)
+	plt.grid()
+	plt.title("#Tags vs Numero de Passos")
+	plt.plot([x[0] for x in results_for_qt], [x[3] for x in results_for_qt], 'ro-', label="QT")
+	plt.plot([x[0] for x in results_for_qwt], [x[3] for x in results_for_qwt], 'bo-', label="QWT")
+	plt.ylabel('Numero de passos')
+	plt.xlabel('#Tags')
+	plt.legend()
+
 	plt.show()
 
 
