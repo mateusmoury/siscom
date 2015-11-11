@@ -65,7 +65,6 @@ class QT:
 		M = []
 		M = self.execute(Q, [])
 		bits_sum = 0
-		
 		for tag in M:
 			bits_sum += self.tags_bits_sum[tag]
 			#results['tags_results'].append({'tag': tag, 'bits_sum': self.tags_bits_sum[tag]})
