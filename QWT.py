@@ -43,10 +43,9 @@ class QWT (object):
 		        'count': 0,
 		        'ws_bits': ""
 		}
-		prefix_len = len(prefix)
+		self.reader_bits_sum += len(prefix)
 		for t in self.tags:
 			if t['active']:
-				self.reader_bits_sum += prefix_len
 				if t['tag'].startswith(prefix):
 					result['count']+=1
 					result['ws_bits'] = t['tag'][ws:]
@@ -54,10 +53,8 @@ class QWT (object):
 		return result
 
 	def go_on(self, prefix):
-
 		prefix_len = len(prefix)
 		tag = ""
-
 		for t in self.tags:
 			if t['active']:
 				self.go_on_slots += 1					
@@ -73,7 +70,6 @@ class QWT (object):
 		self.steps += 1
 		L = len(prefix)
 		ws = self.next_ws(last_ws, last_L, last_T, L, first)
-	
 		query_result = self.query(prefix, ws)
 		last_result = {'ws': ws, 'L': L, 'count': query_result['count'] }
 		if query_result['count'] == 1:
@@ -102,7 +98,7 @@ class QWT (object):
 		self.reset()
 		last_result = self.call('0', -1, -1, -1, True )
 		self.call('1', last_result['ws'], last_result['L'], last_result['count'])
-		return {'bits_sum': self.bits_sum, 'bits_sum_average': self.bits_sum/(float(self.num_tags_to_identify)), 'reader_bits_sum': self.reader_bits_sum, 'steps': self.steps, 'go_on_slots': self.go_on_slots} 
+		return {'bits_sum': self.bits_sum, 'reader_bits_sum': self.reader_bits_sum, 'steps': self.steps, 'go_on_slots': self.go_on_slots} 
 
 
 
