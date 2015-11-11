@@ -8,9 +8,8 @@ class QT:
 	def __init__(self, tags):
 		self.tags = [{'tag': t, 'active': True} for t in tags]
 		self.num_tags_to_identify = len(tags)
-		self.clear()
 
-	def clear(self):
+	def reset(self):
 		aux = self.tags
 		self.tags = [{'tag': t['tag'], 'active': True} for t in aux]
 		self.tags_bits_sum = {} 
@@ -55,11 +54,10 @@ class QT:
 	#	tags_results: Contains all identified tags and how many bits were exchanged to execute their respective identification
 	#	bits_sum: Sum of all bits exchanged, same as iterate over tags_results and sum all bits exchanged
 	#	bits_sum_average: bits_sum divided by the number of tags identified
-	
-	
-	
+	#   reader_bits_sum: bits sended by the reader to identify all tags
+	#   steps: number of steps computed to identify all tags
 	def run(self):
-		self.clear()
+		self.reset()
 		results = { 'bits_sum': 0, 'bits_sum_average': 0.0 }	
 		Q = Queue()
 		Q.put("0")
