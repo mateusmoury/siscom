@@ -112,42 +112,43 @@ class QWT (object):
 
 
 ############################################ TEST #############33
-tags = [] 
-if True:        
-	if True:
-		tags = [
-			"010011",
-			"100001",
-			"010110",
-			"011000",
-			"010101",											
-			"100000",
-			"000010",
-			"000011",
-			"000001",
-			"000101",
-			"000100",
-			"000110",
-			"000111",			
-		]	
+if __name__ == '__main__':
+	tags = [] 
+	if True:        
+		if True:
+			tags = [
+				"010011",
+				"100001",
+				"010110",
+				"011000",
+				"010101",											
+				"100000",
+				"000010",
+				"000011",
+				"000001",
+				"000101",
+				"000100",
+				"000110",
+				"000111",			
+			]	
+		else:
+			tags = [
+				"000",
+				"001",
+				"010",
+				"011",
+				"100",
+				"101",		
+			]
 	else:
-		tags = [
-			"000",
-			"001",
-			"010",
-			"011",
-			"100",
-			"101",		
-		]
-else:
-	with open('teste', 'r') as f:
-		for line in f:
-			line = line[:-1]
-			tags.append(line)
+		with open('teste', 'r') as f:
+			for line in f:
+				line = line[:-1]
+				tags.append(line)
 	
-#print(tags)	
-if True:
-	boy = QWT(tags, 0.5, len(tags[0]) )	
-	ans = boy.run()
-	print("-----------------\n"+str(ans))
+	#print(tags)	
+	if True:
+		boy = QWT(tags, 0.5, len(tags[0]) )	
+		ans = boy.run()
+		print("-----------------\n"+str(ans))
 	
