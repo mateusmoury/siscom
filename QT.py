@@ -28,7 +28,6 @@ class QT:
 		self.reader_bits_sum += len(prefix)
 		for t in self.tags:
 			if t['active']:
-
 				if t['tag'].startswith(prefix):
 					self.tags_bits_sum[t['tag']] += len(t['tag'])
 					result['tag'] = t['tag']
@@ -68,7 +67,7 @@ class QT:
 		for tag in M:
 			bits_sum += self.tags_bits_sum[tag]
 			#results['tags_results'].append({'tag': tag, 'bits_sum': self.tags_bits_sum[tag]})
-		results['bits_sum'] = bits_sum
+		results['bits_sum'] = float(bits_sum) / self.num_tags_to_identify
 		results['reader_bits_sum'] = self.reader_bits_sum
 		results['steps'] = self.steps
 		return results

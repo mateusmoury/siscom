@@ -98,7 +98,7 @@ class QWT (object):
 		self.reset()
 		last_result = self.call('0', -1, -1, -1, True)
 		self.call('1', last_result['ws'], last_result['L'], last_result['count'])
-		return {'bits_sum': self.bits_sum, 'reader_bits_sum': self.reader_bits_sum, 'steps': self.steps, 'go_on_slots': self.go_on_slots} 
+		return { 'bits_sum': float(self.bits_sum) / float(self.num_tags_to_identify), 'reader_bits_sum': self.reader_bits_sum, 'steps': self.steps, 'go_on_slots': self.go_on_slots }
 
 
 
