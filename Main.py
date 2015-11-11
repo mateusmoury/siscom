@@ -38,6 +38,7 @@ if __name__ == '__main__':
 	
 	# Generating Collisions vs Tags
 	plt.figure(1)
+	plt.grid()
 	plt.title('Collisions vs Tags')
 	plt.plot([x['tags'] for x in lb_result], [x['collisions'] for x in lb_result], 'ro-', label="Lower Bound")
 	plt.plot([x['tags'] for x in lee_result], [x['collisions'] for x in lee_result], 'bo-', label="Eom Lee")
@@ -48,6 +49,7 @@ if __name__ == '__main__':
 	
 	# Generating Empty vs Tags
 	plt.figure(2)
+	plt.grid()
 	plt.title('Empty vs Tags')
 	plt.plot([x['tags'] for x in lb_result], [x['empty'] for x in lb_result], 'ro-', label="Lower Bound")
 	plt.plot([x['tags'] for x in lee_result], [x['empty'] for x in lee_result], 'bo-', label="Eom Lee")
@@ -58,6 +60,7 @@ if __name__ == '__main__':
 
 	# Generating Slots vs Tags
 	plt.figure(3)
+	plt.grid()
 	plt.title('Slots vs Tags')
 	plt.plot([x['tags'] for x in lb_result], [x['slots'] for x in lb_result], 'ro-', label="Lower Bound")
 	plt.plot([x['tags'] for x in lee_result], [x['slots'] for x in lee_result], 'bo-', label="Eom Lee")
@@ -74,5 +77,4 @@ if __name__ == '__main__':
 	# plt.ylabel('Avg. Abs. Error')
 	# plt.xlabel('Tags')
 	# plt.legend()
-
 	plt.show()
