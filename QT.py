@@ -25,10 +25,10 @@ class QT:
 			'tag': "",
 		}
 		count = 0 
-		prefix_len = len(prefix)
+		self.reader_bits_sum += len(prefix)
 		for t in self.tags:
 			if t['active']:
-				self.reader_bits_sum += prefix_len
+
 				if t['tag'].startswith(prefix):
 					self.tags_bits_sum[t['tag']] += len(t['tag'])
 					result['tag'] = t['tag']
@@ -58,7 +58,7 @@ class QT:
 	#   steps: number of steps computed to identify all tags
 	def run(self):
 		self.reset()
-		results = { 'bits_sum': 0, 'bits_sum_average': 0.0 }	
+		results = {}	
 		Q = Queue()
 		Q.put("0")
 		Q.put("1")
@@ -70,7 +70,6 @@ class QT:
 			bits_sum += self.tags_bits_sum[tag]
 			#results['tags_results'].append({'tag': tag, 'bits_sum': self.tags_bits_sum[tag]})
 		results['bits_sum'] = bits_sum
-		results['bits_sum_average'] = float(bits_sum)/float(self.num_tags_to_identify)
 		results['reader_bits_sum'] = self.reader_bits_sum
 		results['steps'] = self.steps
 		return results
