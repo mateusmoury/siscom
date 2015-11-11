@@ -1,10 +1,12 @@
 from random import randint
+import os
 
 class TagGenerator:
 
-	def __init__(self, number_of_tags, number_of_bits, file_path):
+	number_of_bits = 96
+
+	def __init__(self, number_of_tags, file_path):
 		self.number_of_tags = number_of_tags
-		self.number_of_bits = number_of_bits
 		self.file_path = file_path
 
 	def run(self):
@@ -18,8 +20,17 @@ class TagGenerator:
 		with open(self.file_path, "w") as textfile:
 			textfile.write("\n".join(tags))
 
-teste = TagGenerator(5, 3, './teste.txt')
-teste.run()
+minimum_number_of_tags = 100
+maximum_number_of_tags = 1000
+number_of_simulations = 1000
+step = 100
+
+for number_of_tags in range(minimum_number_of_tags, maximum_number_of_tags+1, step):
+	newpath = './tag_ids/' + str(number_of_tags) + '/'
+	if not os.path.exists(newpath):
+		os.makedirs(newpath)
+		for simulation in range(1, number_of_simulations+1):
+			TagGenerator(number_of_tags, newpath + str(simulation) + '.txt').run()
 
 
 
