@@ -75,7 +75,9 @@ class QWT (object):
 		if query_result['count'] == 1:
 			tag_identified = 0 # initialized with garbage
 			if L+ws < self.TAGS_LEN:
+				self.steps += 1
 				tag_identified = self.go_on(prefix + query_result['ws_bits'])
+				#last_result = self.call(prefix+query_result['ws_bits'], ws, L+ws, query_result['count'])
 			else:
 				tag_identified = prefix+query_result['ws_bits']
 			self.count_tags_to_identify += 1
