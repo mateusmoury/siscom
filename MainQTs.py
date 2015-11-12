@@ -6,7 +6,7 @@ import time
 if __name__ == '__main__':
 	results_for_qt, results_for_qwt = [], []
 
-	number_of_simulations = 50
+	number_of_simulations = 250
 
 	for number_of_tags in range(100, 1001, 100):
 		qt_bits_sum, qt_reader_bits_sum, qt_steps = 0, 0, 0
@@ -60,6 +60,15 @@ if __name__ == '__main__':
 	plt.plot([x[0] for x in results_for_qt], [x[2] for x in results_for_qt], 'ro-', label="QT")
 	plt.plot([x[0] for x in results_for_qwt], [x[2] for x in results_for_qwt], 'bo-', label="QWT")
 	plt.ylabel('Bits Transmitidos pelo Leitor')
+	plt.xlabel('#Tags')
+	plt.legend()
+
+	plt.figure(3)
+	plt.grid()
+	plt.title("#Tags vs Numero de passos")
+	plt.plot([x[0] for x in results_for_qt], [x[3] for x in results_for_qt], 'ro-', label="QT")
+	plt.plot([x[0] for x in results_for_qwt], [x[3] for x in results_for_qwt], 'bo-', label="QWT")
+	plt.ylabel('Numero de passos')
 	plt.xlabel('#Tags')
 	plt.legend()
 
