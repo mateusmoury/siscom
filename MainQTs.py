@@ -6,7 +6,7 @@ import time
 if __name__ == '__main__':
 	results_for_qt, results_for_qwt = [], []
 
-	number_of_simulations = 250
+	number_of_simulations = 1000
 
 	for number_of_tags in range(100, 1001, 100):
 		qt_bits_sum, qt_reader_bits_sum, qt_steps = 0, 0, 0
